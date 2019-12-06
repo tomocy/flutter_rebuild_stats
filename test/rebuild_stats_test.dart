@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_rebuild_stats/flutter_rebuild_stats.dart';
+import 'package:rebuild_stats/rebuild_stats.dart';
 
 void main() {
   test('adds one to input values', () {
