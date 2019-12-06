@@ -1,5 +1,11 @@
 library rebuild_stats;
 
-class Calculator {
-  int addOne(int value) => ++value;
+class Stats {
+  const Stats({
+    this.widget,
+    this.onceBuilt,
+  });
+
+  final String widget;
+  final bool onceBuilt;
 }
