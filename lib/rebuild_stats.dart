@@ -7,11 +7,7 @@ class Profiler {
   Profiler({
     this.watchedWidgets = const <String>[],
   })  : _streamController = StreamController(),
-        _statCounts = Map.fromIterable(
-          watchedWidgets,
-          key: (widget) => widget,
-          value: (widget) => 0,
-        );
+        _statCounts = {};
 
   final List<String> watchedWidgets;
   final StreamController<Stat> _streamController;
@@ -21,7 +17,7 @@ class Profiler {
     assert(debugOnRebuildDirtyWidget == null);
 
     debugOnRebuildDirtyWidget = _onRebuildWidget;
-    _streamController.stream.listen((stat) => _statCounts[stat.widget]++);
+    _streamController.stream.listen(_onListenStat);
   }
 
   void _onRebuildWidget(Element element, bool onceBuilt) {
@@ -31,8 +27,14 @@ class Profiler {
     }
 
     _streamController.sink.add(Stat(
-      widget: widget.runtimeType.toString(),
+      widget: RebuiltWidget.from(widget),
     ));
+  }
+
+  void _onListenStat(Stat stat) {
+    _statCounts[stat.widget.toString()] ??= 0;
+    _statCounts[stat.widget.toString()]++;
+    print(_statCounts);
   }
 }
 
@@ -41,7 +43,7 @@ class Stat {
     this.widget,
   });
 
-  final String widget;
+  final RebuiltWidget widget;
 }
 
 class RebuiltWidget {
@@ -59,4 +61,9 @@ class RebuiltWidget {
 
   final Type runtimeType;
   final Key key;
+
+  @override
+  String toString() {
+    return '${runtimeType.toString()}(${key.toString()})';
+  }
 }
