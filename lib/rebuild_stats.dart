@@ -1,11 +1,9 @@
 library rebuild_stats;
 
-class Stats {
-  const Stats({
+class Stat {
+  const Stat({
     this.widget,
-    this.onceBuilt,
   });
 
   final String widget;
-  final bool onceBuilt;
 }
