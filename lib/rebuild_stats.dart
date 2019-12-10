@@ -43,3 +43,20 @@ class Stat {
 
   final String widget;
 }
+
+class RebuiltWidget {
+  const RebuiltWidget({
+    this.runtimeType,
+    this.key,
+  });
+
+  factory RebuiltWidget.from(Widget widget) {
+    return RebuiltWidget(
+      runtimeType: widget.runtimeType,
+      key: widget.key,
+    );
+  }
+
+  final Type runtimeType;
+  final Key key;
+}
